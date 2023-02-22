@@ -8,14 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var email: String = ""
+    @State private var password: String = ""
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Spacer()
+            HeaderView()
+            Spacer()
+            Divider()
+            EmailTextView(email: $email)
+            PasswordTextView(password: $password)
+            SigninButton(action: {
+                //Code goes here
+            }, label: "Sign in")
+            Divider()
+            SignupView()
         }
-        .padding()
     }
 }
 
@@ -24,3 +34,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
+
