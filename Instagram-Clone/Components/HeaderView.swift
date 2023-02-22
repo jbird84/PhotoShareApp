@@ -15,10 +15,10 @@ struct HeaderView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 80, height: 80)
                 .foregroundColor(.accentColor)
-            Text("Photo Sharing")
+            Text(TEXT_SIGNIN_HEADLINE)
                 .font(Font.title)
                 .padding(.bottom)
-            Text("The easiest way to share photos with family and friends.")
+            Text(TEXT_SIGNIN_SUBHEADLINE)
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(TextAlignment

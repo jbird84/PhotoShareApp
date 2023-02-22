@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct EmailTextView: View {
+struct EmailTextField: View {
     @Binding var email: String
     var body: some View {
         HStack {
             Image(systemName: "envelope.fill")
                 .foregroundColor(.gray)
-            TextField("Email", text: $email)
+            TextField(K.PlaceholderText.email, text: $email)
         }
         .modifier(TextFieldModifier())
     }

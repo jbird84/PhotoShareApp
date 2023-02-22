@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct PasswordTextView: View {
+struct PasswordTextField: View {
     @Binding var password: String
     var body: some View {
         HStack {
             Image(systemName: "lock.fill")
                 .foregroundColor(.gray)
-            SecureField("Password", text: $password)
+            SecureField(K.PlaceholderText.password, text: $password)
         }
         .modifier(TextFieldModifier())
     }
