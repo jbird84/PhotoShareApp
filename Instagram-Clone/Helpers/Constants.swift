@@ -33,4 +33,8 @@ struct K {
     struct NavigationTitle {
         static let register = "Register"
     }
+    
+    struct ImageName {
+        static let noProfileImage = "noProfileImage"
+    }
 }

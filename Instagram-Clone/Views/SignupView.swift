@@ -11,15 +11,31 @@ struct SignupView: View {
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
+    @State private var showImagePicker = false
+    @State private var image = Image("noProfileImage")
+    @State var imageData: Data = Data()
+    
+    func signUp() {
+        FirebaseService.auth.createUser(withEmail: email, password: password) { authData, error in
+            if error != nil {
+                return
+            }
+            let storageAvatar = FirebaseService.storageRoot.child("avatar")
+            let storageAvatarUserId = storageAvatar.child(<#T##path: String##String#>)
+        }
+    }
     
     var body: some View {
         VStack {
-            Image(systemName: "person.circle.fill")
+            image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 80, height: 80)
+                .frame(width: 110, height: 110)
                 .clipShape(Circle())
-                .padding(.bottom, 80)
+                .padding(.bottom, 60)
+                .onTapGesture {
+                    showImagePicker = true
+                }
             UsernameTextField(username: $username)
             EmailTextField(email: $email)
             VStack(alignment: .leading) {
@@ -30,7 +46,7 @@ struct SignupView: View {
                     .padding(.leading)
             }
             SigninButton(action: {
-                //Handle logic
+                signUp()
             }, label: K.ButtonTitle.signup)
             Divider()
             Text(TEXT_SIGNUP_NOTE)
@@ -38,7 +54,11 @@ struct SignupView: View {
                 .foregroundColor(.gray)
                 .padding()
                 .lineLimit(nil)
-        }.navigationBarTitle(K.NavigationTitle.register, displayMode: .inline)
+        }
+        .sheet(isPresented: $showImagePicker, content: {
+            ImagePicker(showImagePicker: $showImagePicker, pickedImage: $image, imageData: $imageData)
+        })
+        .navigationBarTitle(K.NavigationTitle.register, displayMode: .inline)
     }
 }
 

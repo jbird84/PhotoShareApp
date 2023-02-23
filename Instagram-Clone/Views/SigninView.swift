@@ -13,7 +13,6 @@ struct SigninView: View {
     @State private var password: String = ""
     
     var body: some View {
-        NavigationView {
             VStack {
                 Spacer()
                 HeaderView()
@@ -31,7 +30,6 @@ struct SigninView: View {
                     SignupText()
                 }
             }
-        }.accentColor(Color.black)
     }
 }
 
