@@ -16,12 +16,14 @@ struct SignupView: View {
     @State var imageData: Data = Data()
     
     func signUp() {
-        FirebaseService.auth.createUser(withEmail: email, password: password) { authData, error in
-            if error != nil {
-                return
+        FirebaseService.shared.createUserInFirebase(withEmail: email, andPassword: password) { result in
+            switch result {
+            case .success(let authData):
+                guard let userId = authData?.user.uid else { return }
+                FirebaseService.shared.savedata(userId: userId, imageData: imageData, username: username, email: email)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-            let storageAvatar = FirebaseService.storageRoot.child("avatar")
-            let storageAvatarUserId = storageAvatar.child(<#T##path: String##String#>)
         }
     }
     
@@ -67,3 +69,35 @@ struct SignupView_Previews: PreviewProvider {
         SignupView()
     }
 }
+
+
+
+
+
+//let storageAvatar = FirebaseService.shared.storageRoot.child("avatar")
+//let storageAvatarUserId = storageAvatar.child(userId)
+//let metaData = FirebaseService.shared.metaData
+//metaData.contentType = "image/jpg"
+//storageAvatarUserId.putData(imageData, metadata: metaData) { storageMetadata, error in
+//    if error != nil {
+//        print(error?.localizedDescription ?? FirebaseService.UnknownError.fromCreatingUserInFirebase)
+//        return
+//    }
+//    storageAvatarUserId.downloadURL { url, error in
+//        if let metaImageUrl = url?.absoluteString {
+//            if let changeRequest = FirebaseService.shared.auth.currentUser?.createProfileChangeRequest() {
+//                changeRequest.photoURL = url
+//                changeRequest.displayName = username
+//                changeRequest.commitChanges { error in
+//                    if error != nil {
+//                        return
+//                    }
+//                }
+//            }
+//            let firestoreUsers = FirebaseService.shared.firestoreRoot.collection("users")
+//            let firestoreUserId = firestoreUsers.document(userId)
+//            let userInfo = ["username": username, "email": email, "profileImageUrl": metaImageUrl]
+//            firestoreUserId.setData(userInfo)
+//        }
+//    }
+//}
